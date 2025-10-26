@@ -27,36 +27,14 @@ pip install -r requirements.txt
 Run as a desktop app:
 
 ```
-uv run flet run
+flet run
 ```
 
 Run as a web app:
 
 ```
-uv run flet run --web
+flet run --web
 ```
-
-### Poetry
-
-Install dependencies from `pyproject.toml`:
-
-```
-poetry install
-```
-
-Run as a desktop app:
-
-```
-poetry run flet run
-```
-
-Run as a web app:
-
-```
-poetry run flet run --web
-```
-
-For more details on running the app, refer to the [Getting Started Guide](https://flet.dev/docs/getting-started/).
 
 ## Build the app
 
