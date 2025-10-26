@@ -1,0 +1,170 @@
+{
+  "C4-2": {
+    "name": "Paper Jam Clear Areas A,B",
+    "category": "Paper Feed System",
+    "severity": "Medium",
+    "estimated_repair_time": "15-30 minutes",
+    "symptoms": [
+      "Printer displays Error Code C4-2.",
+      "Paper jam occurs between Tray 2 and Tray 3 Take Away Sensors.",
+      "Printer stops feeding paper from Tray 4 or Tray 3."
+    ],
+    "technical_description": "Logic Control on the Print Engine Controller Board detected that when paper was fed from Tray 4, the Tray 2 Take Away Sensor did not actuate within the specified time after the Tray 3 Take Away Sensor was actuated.",
+    "probable_causes": [
+      "Wrinkled or damaged paper in the tray.",
+      "Paper scrap or foreign objects in the paper path.",
+      "Faulty Tray 2 or Tray 3 Take Away Sensor.",
+      "Damaged Take Away Roller mechanism.",
+      "Failed I/O Board or Controller Board."
+    ],
+    "safety_notes": [
+      "Always power off the printer before inspecting mechanical parts.",
+      "Do not use sharp tools to remove jammed paper.",
+      "Avoid touching exposed circuits or connectors."
+    ],
+    "steps": [
+      {
+        "id": 1,
+        "title": "Paper Inspection",
+        "instruction": "Inspect the paper loaded in Tray 2 or Tray 3.",
+        "details": "Ensure the paper is flat, not wrinkled or torn, and properly aligned in the tray guides.",
+        "question": "Is the paper loaded in the tray wrinkled or damaged?",
+        "yes": {
+          "action": "Replace the paper with a new stack of clean sheets.",
+          "note": "Do not mix different paper types or weights.",
+          "next_step": 0
+        },
+        "no": {
+          "next_step": 2
+        }
+      },
+      {
+        "id": 2,
+        "title": "Paper Path Inspection",
+        "instruction": "Visually inspect the paper path for scraps, clips, or foreign objects.",
+        "details": "Check between Tray 2 Take Away and Tray 3 Take Away Sensors. Remove any debris found.",
+        "question": "Is the paper path clear?",
+        "yes": {
+          "next_step": 3
+        },
+        "no": {
+          "action": "Clear the paper path and verify that the rollers are clean and free of residue.",
+          "next_step": 0
+        }
+      },
+      {
+        "id": 3,
+        "title": "Tray 3 Take Away Sensor Test",
+        "instruction": "Run a diagnostic to test the Tray 3 Take Away Sensor.",
+        "procedure": [
+          "Enter Diagnostic Mode.",
+          "From Main Menu, select: Comp Input Test / HCF Unit / T/A Roll3 Sen.",
+          "Press [4] to start test, [0] to stop.",
+          "Insert and then remove a sheet of paper into the Tray 3 Take Away Sensor."
+        ],
+        "question": "Does the Control Panel display 'With Paper' when inserted and 'Without Paper' when removed?",
+        "expected_result": "The panel should correctly detect both paper presence and absence.",
+        "yes": {
+          "next_step": 4
+        },
+        "no": {
+          "action": "Replace the Tray 3 Take Away Sensor [PL 5.2].",
+          "next_step": 0
+        }
+      },
+      {
+        "id": 4,
+        "title": "Tray 3 Take Away Roller Check",
+        "instruction": "Run the motor test to verify roller rotation.",
+        "procedure": [
+          "Enter Diagnostic Mode.",
+          "From Main Menu, select: Comp Output Test / IOT Unit / Main Motor On.",
+          "Press [4] to start, [0] to stop.",
+          "Open Door C to observe roller movement."
+        ],
+        "question": "Does Tray 3 Take Away Roller rotate when Main Motor runs?",
+        "yes": {
+          "next_step": 5
+        },
+        "no": {
+          "action": "Troubleshoot the drive transmission from the High Capacity Feeder Motor to the Take Away Gear.",
+          "next_step": 0
+        }
+      },
+      {
+        "id": 5,
+        "title": "Tray 2 Take Away Sensor Test",
+        "instruction": "Run a diagnostic to verify Tray 2 Sensor operation.",
+        "procedure": [
+          "Enter Diagnostic Mode.",
+          "Select: Comp Input Test / IOT Unit / T/A Roll2 Sen.",
+          "Press [4] to start test, [0] to stop.",
+          "Insert and remove paper to check detection response."
+        ],
+        "question": "Does the panel display 'With Paper' and 'Without Paper' correctly?",
+        "yes": {
+          "next_step": 6
+        },
+        "no": {
+          "action": "Replace the Tray 2 Take Away Sensor [PL 5.1].",
+          "next_step": 0
+        }
+      },
+      {
+        "id": 6,
+        "title": "High Capacity Feeder Board Replacement",
+        "instruction": "Replace the High Capacity Feeder Board [RRP 2-9].",
+        "question": "After replacement, does the error code still appear?",
+        "yes": {
+          "next_step": 7
+        },
+        "no": {
+          "action": "Problem solved. The feeder board was defective.",
+          "next_step": 0
+        }
+      },
+      {
+        "id": 7,
+        "title": "Input/Output Board Replacement",
+        "instruction": "Replace the I/O Board [RRP 1-70].",
+        "question": "After replacement, does the error code still appear?",
+        "yes": {
+          "next_step": 8
+        },
+        "no": {
+          "action": "Problem solved. Fault found in the I/O Board.",
+          "next_step": 0
+        }
+      },
+      {
+        "id": 8,
+        "title": "Print Engine Controller Board Replacement",
+        "instruction": "Replace the Print Engine Controller Board [RRP 1-72].",
+        "question": "After replacement, does the error code still appear?",
+        "yes": {
+          "next_step": 9
+        },
+        "no": {
+          "action": "Problem solved. Controller board failure detected.",
+          "next_step": 0
+        }
+      },
+      {
+        "id": 9,
+        "title": "Wiring and Connector Inspection",
+        "instruction": "Inspect all wiring and connectors linking Tray 2, Tray 3, HCF, and I/O boards.",
+        "details": "Look for loose connectors, bent pins, or damaged cables. Use a continuity tester if necessary.",
+        "action": "Repair or replace damaged wiring as needed.",
+        "next_step": 0
+      }
+    ],
+    "final_checklist": [
+      "Run test prints from Tray 2 and Tray 3.",
+      "Confirm no paper jams occur.",
+      "Verify sensors report correct status in Diagnostic Mode.",
+      "Log repair completion in service record."
+    ],
+    "success_message": "✅ Error C4-2 resolved successfully. Printer is ready for use.",
+    "failure_message": "⚠️ If the problem persists, escalate to Level 2 support for board-level diagnostics."
+  }
+}
