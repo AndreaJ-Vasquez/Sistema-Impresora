@@ -1,22 +1,38 @@
 import flet as ft
-
+from question_cards import StepCard
 
 def main(page: ft.Page):
     counter = ft.Text("0", size=50, data=0)
+    page.bgcolor = "#DAE6E8"
+    
+    def yes_action():
+        page.snack_bar = ft.SnackBar(ft.Text("You clicked Yes!"))
+        page.snack_bar.open = True
+        page.update()
 
-    def increment_click(e):
-        counter.data += 1
-        counter.value = str(counter.data)
-        counter.update()
+    def no_action():
+        page.snack_bar = ft.SnackBar(ft.Text("You clicked No!"))
+        page.snack_bar.open = True
+        page.update()
 
-    page.floating_action_button = ft.FloatingActionButton(
-        icon=ft.Icons.ADD, on_click=increment_click
+    card = StepCard(
+        step_number=2,
+        title="Paper Path Inspection",
+        instruction="Visually inspect the paper path for scraps, clips, or foreign objects.",
+        detail="Check between Tray 2 Take Away and Tray 3 Take Away Sensors. Remove any debris found.",
+        question="Is the paper path clear?",
+        on_yes=yes_action,
+        on_no=no_action,
     )
+
+    page.add(ft.Container(padding=20, content=card))
+
     page.add(
         ft.SafeArea(
             ft.Container(
                 counter,
                 alignment=ft.alignment.center,
+                
             ),
             expand=True,
         )
