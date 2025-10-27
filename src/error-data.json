@@ -65,7 +65,7 @@
         "question": "Does the Control Panel display 'With Paper' when inserted and 'Without Paper' when removed?",
         "expected_result": "The panel should correctly detect both paper presence and absence.",
         "yes": {
-          "next_step": 4
+          "next_step": 7
         },
         "no": {
           "action": "Replace the Tray 3 Take Away Sensor [PL 5.2].",

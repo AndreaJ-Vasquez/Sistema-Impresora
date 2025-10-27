@@ -56,7 +56,6 @@ def StepCard(step_number: int, title: str, instruction: str, detail: str, questi
                                 on_click=lambda e: on_yes() if on_yes else None,
                                 bgcolor="#0B3558",
                                 content=ft.Text("Yes", color="white", weight=ft.FontWeight.BOLD),
-                                
                             ),
                             ft.Button(
                                 elevation=2,
