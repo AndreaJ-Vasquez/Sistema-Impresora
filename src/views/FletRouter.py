@@ -1,46 +1,61 @@
 import flet as ft
 from views.diagnostic_view import DiagnosticView
-from question_cards import StepCard 
 
 class Router:
-    def __init__(self, page: ft.Page, ft_module=ft):
+    def __init__(self, page: ft.Page):
         self.page = page
-        self.ft = ft_module
-
         self.page.on_route_change = self.route_change
         self.page.on_view_pop = self.view_pop
-        self.body = ft.Container(expand=True)
-
         self.page.go(self.page.route)
 
     def route_change(self, e: ft.RouteChangeEvent):
         p = self.page
         p.views.clear()
 
-        # Página principal (/)
-        p.views.append(
-            ft.View(
-                route="/",
-                controls=[
-                    ft.AppBar(title=ft.Text("Home"), bgcolor="#0B3558", color="white"),
-                    ft.Container(
-                        alignment=ft.alignment.center,
-                        content=ft.ElevatedButton("Ir a diagnóstico", on_click=lambda _: p.go("/diagnostic")),
-                    ),
-                    StepCard(
-                    step_number=2,
-                    title="Paper Path Inspection",
-                    instruction="Visually inspect the paper path for scraps, clips, or foreign objects.",
-                    detail="Check between Tray 2 Take Away and Tray 3 Take Away Sensors. Remove any debris found.",
-                    question="Is the paper path clear?",
-                    on_yes=lambda: p.go("/diagnostic"),
+        # Pantalla principal
+        if p.route == "/":
+            p.views.append(
+                ft.View(
+                    route="/",
+                    controls=[
+                        ft.AppBar(title=ft.Text("Asistente de Diagnóstico"), bgcolor="#0B3558", color="white"),
+                        ft.Container(
+                            alignment=ft.alignment.center,
+                            padding=40,
+                            content=ft.Column(
+                                horizontal_alignment=ft.CrossAxisAlignment.CENTER,
+                                spacing=25,
+                                controls=[
+                                    ft.Text(
+                                        "Bienvenido al Sistema Experto de Diagnóstico",
+                                        size=22,
+                                        weight=ft.FontWeight.BOLD,
+                                        color="#0B3558",
+                                        text_align=ft.TextAlign.CENTER,
+                                    ),
+                                    ft.Text(
+                                        "Este asistente te guiará paso a paso para resolver errores comunes en la impresora.",
+                                        size=14,
+                                        color="#55708F",
+                                        text_align=ft.TextAlign.CENTER,
+                                    ),
+                                    ft.ElevatedButton(
+                                        "Iniciar diagnóstico",
+                                        icon=ft.Icons.PLAY_ARROW,
+                                        bgcolor="#0B3558",
+                                        color="white",
+                                        on_click=lambda _: p.go("/diagnostic"),
+                                    ),
+                           
+                                ],
+                            ),
+                        ),
+                    ],
                 )
-                ],
             )
-        )
 
-        # Página /diagnostic
-        if p.route == "/diagnostic":
+        # Pantalla de diagnóstico
+        elif p.route == "/diagnostic":
             p.views.append(DiagnosticView(p))
 
         p.update()
