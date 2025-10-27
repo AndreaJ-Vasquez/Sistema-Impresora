@@ -17,6 +17,7 @@ def DiagnosticView(page: ft.Page):
     page.bgcolor = "#F5FAFF"
     
     card_holder = ft.Container(padding=20)
+    show_menu = {"value": True} 
     
     def get_step(step_id):
         for s in case.get("steps", []):
@@ -25,12 +26,11 @@ def DiagnosticView(page: ft.Page):
         return None
     
     def show_action_result(action_data):
-        """Muestra el resultado de una acción antes de continuar"""
+        # Muestra el resultado de una acción requerida
         action_text = action_data.get("action", "Action completed")
         note_text = action_data.get("note", "")
         next_step_id = action_data.get("next_step", 0)
         
-        # Crear contenido del resultado
         result_content = ft.Column(
             spacing=15,
             controls=[
@@ -65,25 +65,34 @@ def DiagnosticView(page: ft.Page):
                         )] if note_text else [])
                     )
                 ),
-                ft.ElevatedButton(
-                    "Continue",
-                    icon=ft.Icons.ARROW_FORWARD,
-                    bgcolor="#0B3558",
-                    color="white",
-                    height=45,
-                    on_click=lambda e: show_step(next_step_id)
+                ft.Row(
+                    spacing=10,
+                    controls=[
+                        ft.ElevatedButton(
+                            "Continue",
+                            icon=ft.Icons.ARROW_FORWARD,
+                            bgcolor="#0B3558",
+                            color="white",
+                            height=45,
+                            expand=True,
+                            on_click=lambda e: show_step(next_step_id)
+                        ),
+                        ft.OutlinedButton(
+                            "Back to Menu",
+                            icon=ft.Icons.HOME,
+                            height=45,
+                            on_click=lambda e: show_steps_menu()
+                        )
+                    ]
                 )
             ]
         )
         
-        card_holder.content = ft.Container(
-            padding=20,
-            content=result_content
-        )
+        card_holder.content = ft.Container(padding=20, content=result_content)
         page.update()
     
     def show_completion_message():
-        """Muestra el mensaje final cuando next_step es 0"""
+        #Muestra el mensaje final cuando el diagnóstico está completo
         card_holder.content = ft.Container(
             alignment=ft.alignment.center,
             padding=30,
@@ -121,6 +130,15 @@ def DiagnosticView(page: ft.Page):
                                 ]
                             ]
                         )
+                    ),
+                    ft.Divider(height=20, color="transparent"),
+                    ft.ElevatedButton(
+                        "Back to Menu",
+                        icon=ft.Icons.HOME,
+                        bgcolor="#0B3558",
+                        color="white",
+                        height=45,
+                        on_click=lambda e: show_steps_menu()
                     )
                 ]
             )
@@ -128,18 +146,15 @@ def DiagnosticView(page: ft.Page):
         page.update()
     
     def handle_response(response_data):
-        """Maneja la respuesta (Yes o No) del usuario"""
-        # Si hay una acción que ejecutar, mostrarla primero
+        #Manejo de res yes y no
         if "action" in response_data:
             show_action_result(response_data)
         else:
-            # Si no hay acción, ir directo al siguiente paso
             next_step_id = response_data.get("next_step", 0)
             show_step(next_step_id)
     
     def show_step(step_id):
-        """Muestra un paso del diagnóstico"""
-        # Si step_id es 0, significa que terminamos
+        #Mostrar el paso
         if step_id == 0:
             show_completion_message()
             return
@@ -149,21 +164,21 @@ def DiagnosticView(page: ft.Page):
             show_completion_message()
             return
         
-        # Construir el detalle con procedure si existe
+        show_menu["value"] = False
+        
         detail_text = step.get("details", "")
         
-        # Si hay un procedure, agregarlo al detalle
         if "procedure" in step:
             procedure_steps = "\n\nProcedure:\n" + "\n".join(
                 [f"{i+1}. {proc}" for i, proc in enumerate(step["procedure"])]
             )
             detail_text += procedure_steps
         
-        # Si hay expected_result, agregarlo
         if "expected_result" in step:
             detail_text += f"\n\n✓ Expected Result: {step['expected_result']}"
         
-        card_holder.content = StepCard(
+        # StepCard con botón de regresar al menú
+        step_card = StepCard(
             step_number=step["id"],
             title=step["title"],
             instruction=step["instruction"],
@@ -172,10 +187,119 @@ def DiagnosticView(page: ft.Page):
             on_yes=lambda: handle_response(step.get("yes", {})),
             on_no=lambda: handle_response(step.get("no", {})),
         )
+        
+        card_holder.content = ft.Column(
+            spacing=15,
+            controls=[
+                ft.Row(
+                    alignment=ft.MainAxisAlignment.END,
+                    controls=[
+                        ft.TextButton(
+                            "← Back to Menu",
+                            icon=ft.Icons.HOME_OUTLINED,
+                            on_click=lambda e: show_steps_menu()
+                        )
+                    ]
+                ),
+                step_card
+            ]
+        )
+        page.update()
+    
+    def create_step_card_preview(step):
+        """Crea una tarjeta de vista previa para el menú"""
+        return ft.Container(
+            bgcolor="white",
+            border_radius=10,
+            border=ft.border.all(1, "#D0D7DE"),
+            padding=15,
+            ink=True,
+            on_click=lambda e: show_step(step["id"]),
+            content=ft.Column(
+                spacing=8,
+                controls=[
+                    ft.Row(
+                        spacing=10,
+                        controls=[
+                            ft.Container(
+                                bgcolor="#0B3558",
+                                border_radius=8,
+                                padding=8,
+                                width=40,
+                                height=40,
+                                content=ft.Text(
+                                    str(step["id"]),
+                                    size=16,
+                                    weight=ft.FontWeight.BOLD,
+                                    color="white",
+                                    text_align=ft.TextAlign.CENTER
+                                )
+                            ),
+                            ft.Column(
+                                spacing=4,
+                                expand=True,
+                                controls=[
+                                    ft.Text(
+                                        step["title"],
+                                        size=15,
+                                        weight=ft.FontWeight.BOLD,
+                                        color="#0B3558"
+                                    ),
+                                    ft.Text(
+                                        step["instruction"][:80] + "..." if len(step["instruction"]) > 80 else step["instruction"],
+                                        size=12,
+                                        color="#64748B"
+                                    )
+                                ]
+                            ),
+                            ft.Icon(ft.Icons.ARROW_FORWARD_IOS, size=16, color="#94A3B8")
+                        ]
+                    )
+                ]
+            )
+        )
+    
+    def show_steps_menu():
+        """Muestra el menú de selección de pasos"""
+        show_menu["value"] = True
+        
+        steps_list = ft.Column(
+            spacing=12,
+            controls=[create_step_card_preview(step) for step in case["steps"]]
+        )
+        
+        card_holder.content = ft.Column(
+            spacing=20,
+            controls=[
+                ft.Container(
+                    bgcolor="#EFF6FF",
+                    border_radius=10,
+                    padding=15,
+                    content=ft.Column(
+                        spacing=8,
+                        controls=[
+                            ft.Text(
+                                "Select Starting Point",
+                                size=18,
+                                weight=ft.FontWeight.BOLD,
+                                color="#0B3558"
+                            ),
+                            ft.Text(
+                                "Choose the diagnostic step that best matches your current situation:",
+                                size=13,
+                                color="#475569"
+                            )
+                        ]
+                    )
+                ),
+                steps_list
+            ]
+        )
         page.update()
     
     view = ft.View(
         route="/diagnostic",
+        scroll=ft.ScrollMode.AUTO,
         controls=[
             ft.Container(
                 bgcolor="white",
@@ -202,9 +326,8 @@ def DiagnosticView(page: ft.Page):
         ],
     )
     
-    # Iniciar con el primer paso
-    first_id = case["steps"][0]["id"]
-    show_step(first_id)
+    # Iniciar con el menú de selección
+    show_steps_menu()
     
     return view
 
