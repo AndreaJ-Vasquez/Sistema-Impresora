@@ -1,5 +1,7 @@
-import flet as ft
 from views.diagnostic_view import DiagnosticView
+from views.tree_view import tree_view_component  # importa tu nueva vista
+import flet as ft
+
 
 class Router:
     def __init__(self, page: ft.Page):
@@ -12,7 +14,6 @@ class Router:
         p = self.page
         p.views.clear()
 
-        # Pantalla principal
         if p.route == "/":
             p.views.append(
                 ft.View(
@@ -26,27 +27,19 @@ class Router:
                                 horizontal_alignment=ft.CrossAxisAlignment.CENTER,
                                 spacing=25,
                                 controls=[
-                                    ft.Text(
-                                        "Bienvenido al Sistema Experto de Diagnóstico",
-                                        size=22,
-                                        weight=ft.FontWeight.BOLD,
-                                        color="#0B3558",
-                                        text_align=ft.TextAlign.CENTER,
-                                    ),
-                                    ft.Text(
-                                        "Este asistente te guiará paso a paso para resolver errores comunes en la impresora.",
-                                        size=14,
-                                        color="#55708F",
-                                        text_align=ft.TextAlign.CENTER,
-                                    ),
+                                    ft.Text("Bienvenido al Sistema Experto de Diagnóstico",
+                                            size=22, weight=ft.FontWeight.BOLD, color="#0B3558",
+                                            text_align=ft.TextAlign.CENTER),
+                                    ft.Text("Selecciona el modo de vista:",
+                                            size=14, color="#55708F", text_align=ft.TextAlign.CENTER),
                                     ft.ElevatedButton(
-                                        "Iniciar diagnóstico",
-                                        icon=ft.Icons.PLAY_ARROW,
-                                        bgcolor="#0B3558",
-                                        color="white",
-                                        on_click=lambda _: p.go("/diagnostic"),
-                                    ),
-                           
+                                        "Vista Diagnóstico", icon=ft.Icons.PLAY_ARROW,
+                                        bgcolor="#0B3558", color="white",
+                                        on_click=lambda _: p.go("/diagnostic")),
+                                    ft.ElevatedButton(
+                                        "Vista en Árbol", icon=ft.Icons.ACCOUNT_TREE,
+                                        bgcolor="#0B3558", color="white",
+                                        on_click=lambda _: p.go("/tree")),
                                 ],
                             ),
                         ),
@@ -54,9 +47,24 @@ class Router:
                 )
             )
 
-        # Pantalla de diagnóstico
         elif p.route == "/diagnostic":
             p.views.append(DiagnosticView(p))
+
+        elif p.route == "/tree":
+            p.views.append(
+                ft.View(
+                    route="/tree",
+                    controls=[
+                        ft.AppBar(
+                            title=ft.Text("Vista de Árbol del Diagnóstico"),
+                            bgcolor="#0B3558",
+                            color="white",
+                            leading=ft.IconButton(icon=ft.Icons.ARROW_BACK, on_click=lambda e: p.go("/")),
+                        ),
+                        tree_view_component()
+                    ],
+                )
+            )
 
         p.update()
 

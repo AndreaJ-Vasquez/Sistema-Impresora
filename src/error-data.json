@@ -1,37 +1,37 @@
 {
   "C4-2": {
-    "name": "Paper Jam Clear Areas A,B",
-    "category": "Paper Feed System",
-    "severity": "Medium",
-    "estimated_repair_time": "15-30 minutes",
+    "name": "Áreas A,B de limpieza de atascos de papel",
+    "category": "Sistema de alimentación de papel",
+    "severity": "Media",
+    "estimated_repair_time": "15-30 minutos",
     "symptoms": [
-      "Printer displays Error Code C4-2.",
-      "Paper jam occurs between Tray 2 and Tray 3 Take Away Sensors.",
-      "Printer stops feeding paper from Tray 4 or Tray 3."
+      "La impresora muestra el código de error C4-2.",
+      "Se produce un atasco de papel entre los sensores Take Away de la Bandeja 2 y la Bandeja 3.",
+      "La impresora deja de alimentar papel desde la Bandeja 4 o la Bandeja 3."
     ],
-    "technical_description": "Logic Control on the Print Engine Controller Board detected that when paper was fed from Tray 4, the Tray 2 Take Away Sensor did not actuate within the specified time after the Tray 3 Take Away Sensor was actuated.",
+    "technical_description": "El control lógico de la placa controladora del motor de impresión detectó que al alimentarse papel desde la Bandeja 4, el sensor Take Away de la Bandeja 2 no se activó dentro del tiempo especificado después de que se activó el sensor Take Away de la Bandeja 3.",
     "probable_causes": [
-      "Wrinkled or damaged paper in the tray.",
-      "Paper scrap or foreign objects in the paper path.",
-      "Faulty Tray 2 or Tray 3 Take Away Sensor.",
-      "Damaged Take Away Roller mechanism.",
-      "Failed I/O Board or Controller Board."
+      "Papel arrugado o dañado en la bandeja.",
+      "Restos de papel u objetos extraños en la ruta del papel.",
+      "Sensor Take Away de la Bandeja 2 o Bandeja 3 defectuoso.",
+      "Mecanismo del rodillo Take Away dañado.",
+      "Placa I/O o placa controladora fallida."
     ],
     "safety_notes": [
-      "Always power off the printer before inspecting mechanical parts.",
-      "Do not use sharp tools to remove jammed paper.",
-      "Avoid touching exposed circuits or connectors."
+      "Apague siempre la impresora antes de inspeccionar las partes mecánicas.",
+      "No utilice herramientas afiladas para retirar papel atascado.",
+      "Evite tocar circuitos o conectores expuestos."
     ],
     "steps": [
       {
         "id": 1,
-        "title": "Paper Inspection",
-        "instruction": "Inspect the paper loaded in Tray 2 or Tray 3.",
-        "details": "Ensure the paper is flat, not wrinkled or torn, and properly aligned in the tray guides.",
-        "question": "Is the paper loaded in the tray wrinkled or damaged?",
+        "title": "Inspección del papel",
+        "instruction": "Inspeccione el papel cargado en la Bandeja 2 o Bandeja 3.",
+        "details": "Asegúrese de que el papel esté plano, sin arrugas ni desgarros, y correctamente alineado en las guías de la bandeja.",
+        "question": "¿El papel cargado en la bandeja está arrugado o dañado?",
         "yes": {
-          "action": "Replace the paper with a new stack of clean sheets.",
-          "note": "Do not mix different paper types or weights.",
+          "action": "Reemplace el papel por una nueva pila de hojas limpias.",
+          "note": "No mezcle diferentes tipos o gramajes de papel.",
           "next_step": 0
         },
         "no": {
@@ -40,131 +40,131 @@
       },
       {
         "id": 2,
-        "title": "Paper Path Inspection",
-        "instruction": "Visually inspect the paper path for scraps, clips, or foreign objects.",
-        "details": "Check between Tray 2 Take Away and Tray 3 Take Away Sensors. Remove any debris found.",
-        "question": "Is the paper path clear?",
+        "title": "Inspección del recorrido del papel",
+        "instruction": "Inspeccione visualmente el recorrido del papel en busca de restos, clips u objetos extraños.",
+        "details": "Revise entre los sensores Take Away de la Bandeja 2 y la Bandeja 3. Retire cualquier residuo encontrado.",
+        "question": "¿El recorrido del papel está libre?",
         "yes": {
           "next_step": 3
         },
         "no": {
-          "action": "Clear the paper path and verify that the rollers are clean and free of residue.",
+          "action": "Retire el atasco y verifique que los rodillos estén limpios y libres de residuos.",
           "next_step": 0
         }
       },
       {
         "id": 3,
-        "title": "Tray 3 Take Away Sensor Test",
-        "instruction": "Run a diagnostic to test the Tray 3 Take Away Sensor.",
+        "title": "Prueba del sensor Take Away de la Bandeja 3",
+        "instruction": "Ejecute un diagnóstico para probar el sensor Take Away de la Bandeja 3.",
         "procedure": [
-          "Enter Diagnostic Mode.",
-          "From Main Menu, select: Comp Input Test / HCF Unit / T/A Roll3 Sen.",
-          "Press [4] to start test, [0] to stop.",
-          "Insert and then remove a sheet of paper into the Tray 3 Take Away Sensor."
+          "Ingrese al Modo de Diagnóstico.",
+          "En el menú principal, seleccione: Comp Input Test / HCF Unit / T/A Roll3 Sen.",
+          "Presione [4] para iniciar la prueba, [0] para detenerla.",
+          "Inserte y luego retire una hoja de papel en el sensor Take Away de la Bandeja 3."
         ],
-        "question": "Does the Control Panel display 'With Paper' when inserted and 'Without Paper' when removed?",
-        "expected_result": "The panel should correctly detect both paper presence and absence.",
+        "question": "¿El panel de control detecta 'Con papel' al insertar y 'Sin papel' al retirar?",
+        "expected_result": "El panel debe detectar correctamente tanto la presencia como la ausencia de papel.",
         "yes": {
           "next_step": 7
         },
         "no": {
-          "action": "Replace the Tray 3 Take Away Sensor [PL 5.2].",
+          "action": "Reemplace el sensor Take Away de la Bandeja 3 [PL 5.2].",
           "next_step": 0
         }
       },
       {
         "id": 4,
-        "title": "Tray 3 Take Away Roller Check",
-        "instruction": "Run the motor test to verify roller rotation.",
+        "title": "Comprobación del rodillo Take Away de la Bandeja 3",
+        "instruction": "Ejecute la prueba del motor para verificar la rotación del rodillo.",
         "procedure": [
-          "Enter Diagnostic Mode.",
-          "From Main Menu, select: Comp Output Test / IOT Unit / Main Motor On.",
-          "Press [4] to start, [0] to stop.",
-          "Open Door C to observe roller movement."
+          "Ingrese al Modo de Diagnóstico.",
+          "En el menú principal, seleccione: Comp Output Test / IOT Unit / Main Motor On.",
+          "Presione [4] para iniciar, [0] para detener.",
+          "Abra la Puerta C para observar el movimiento del rodillo."
         ],
-        "question": "Does Tray 3 Take Away Roller rotate when Main Motor runs?",
+        "question": "¿El rodillo Take Away de la Bandeja 3 gira cuando el motor principal está en funcionamiento?",
         "yes": {
           "next_step": 5
         },
         "no": {
-          "action": "Troubleshoot the drive transmission from the High Capacity Feeder Motor to the Take Away Gear.",
+          "action": "Investigue la transmisión desde el motor del alimentador de alta capacidad hasta el engranaje Take Away.",
           "next_step": 0
         }
       },
       {
         "id": 5,
-        "title": "Tray 2 Take Away Sensor Test",
-        "instruction": "Run a diagnostic to verify Tray 2 Sensor operation.",
+        "title": "Prueba del sensor Take Away de la Bandeja 2",
+        "instruction": "Ejecute un diagnóstico para verificar el funcionamiento del sensor de la Bandeja 2.",
         "procedure": [
-          "Enter Diagnostic Mode.",
-          "Select: Comp Input Test / IOT Unit / T/A Roll2 Sen.",
-          "Press [4] to start test, [0] to stop.",
-          "Insert and remove paper to check detection response."
+          "Ingrese al Modo de Diagnóstico.",
+          "Seleccione: Comp Input Test / IOT Unit / T/A Roll2 Sen.",
+          "Presione [4] para iniciar la prueba, [0] para detenerla.",
+          "Inserte y retire papel para comprobar la respuesta de detección."
         ],
-        "question": "Does the panel display 'With Paper' and 'Without Paper' correctly?",
+        "question": "¿El panel muestra correctamente 'Con papel' y 'Sin papel'?",
         "yes": {
           "next_step": 6
         },
         "no": {
-          "action": "Replace the Tray 2 Take Away Sensor [PL 5.1].",
+          "action": "Reemplace el sensor Take Away de la Bandeja 2 [PL 5.1].",
           "next_step": 0
         }
       },
       {
         "id": 6,
-        "title": "High Capacity Feeder Board Replacement",
-        "instruction": "Replace the High Capacity Feeder Board [RRP 2-9].",
-        "question": "After replacement, does the error code still appear?",
+        "title": "Reemplazo de la placa del alimentador de alta capacidad",
+        "instruction": "Reemplace la placa del alimentador de alta capacidad [RRP 2-9].",
+        "question": "Después del reemplazo, ¿el código de error aún aparece?",
         "yes": {
           "next_step": 7
         },
         "no": {
-          "action": "Problem solved. The feeder board was defective.",
+          "action": "Problema resuelto. La placa del alimentador estaba defectuosa.",
           "next_step": 0
         }
       },
       {
         "id": 7,
-        "title": "Input/Output Board Replacement",
-        "instruction": "Replace the I/O Board [RRP 1-70].",
-        "question": "After replacement, does the error code still appear?",
+        "title": "Reemplazo de la placa de entrada/salida",
+        "instruction": "Reemplace la placa I/O [RRP 1-70].",
+        "question": "Después del reemplazo, ¿el código de error aún aparece?",
         "yes": {
           "next_step": 8
         },
         "no": {
-          "action": "Problem solved. Fault found in the I/O Board.",
+          "action": "Problema resuelto. Se detectó falla en la placa I/O.",
           "next_step": 0
         }
       },
       {
         "id": 8,
-        "title": "Print Engine Controller Board Replacement",
-        "instruction": "Replace the Print Engine Controller Board [RRP 1-72].",
-        "question": "After replacement, does the error code still appear?",
+        "title": "Reemplazo de la placa controladora del motor de impresión",
+        "instruction": "Reemplace la placa controladora del motor de impresión [RRP 1-72].",
+        "question": "Después del reemplazo, ¿el código de error aún aparece?",
         "yes": {
           "next_step": 9
         },
         "no": {
-          "action": "Problem solved. Controller board failure detected.",
+          "action": "Problema resuelto. Se detectó falla en la placa controladora.",
           "next_step": 0
         }
       },
       {
         "id": 9,
-        "title": "Wiring and Connector Inspection",
-        "instruction": "Inspect all wiring and connectors linking Tray 2, Tray 3, HCF, and I/O boards.",
-        "details": "Look for loose connectors, bent pins, or damaged cables. Use a continuity tester if necessary.",
-        "action": "Repair or replace damaged wiring as needed.",
+        "title": "Inspección de cableado y conectores",
+        "instruction": "Inspeccione todo el cableado y los conectores que enlazan la Bandeja 2, Bandeja 3, HCF y las placas I/O.",
+        "details": "Busque conectores flojos, pines doblados o cables dañados. Use un comprobador de continuidad si es necesario.",
+        "action": "Repare o reemplace el cableado dañado según sea necesario.",
         "next_step": 0
       }
     ],
     "final_checklist": [
-      "Run test prints from Tray 2 and Tray 3.",
-      "Confirm no paper jams occur.",
-      "Verify sensors report correct status in Diagnostic Mode.",
-      "Log repair completion in service record."
+      "Realizar impresiones de prueba desde la Bandeja 2 y la Bandeja 3.",
+      "Confirmar que no se producen atascos de papel.",
+      "Verificar que los sensores reporten el estado correcto en el Modo de Diagnóstico.",
+      "Registrar la finalización de la reparación en el registro de servicio."
     ],
-    "success_message": "✅ Error C4-2 resolved successfully. Printer is ready for use.",
-    "failure_message": "⚠️ If the problem persists, escalate to Level 2 support for board-level diagnostics."
+    "success_message": "✅ Error C4-2 resuelto con éxito. La impresora está lista para usar.",
+    "failure_message": "⚠️ Si el problema persiste, escale al Soporte Nivel 2 para diagnósticos a nivel de placa."
   }
 }

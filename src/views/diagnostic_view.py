@@ -69,7 +69,7 @@ def DiagnosticView(page: ft.Page):
                     spacing=10,
                     controls=[
                         ft.ElevatedButton(
-                            "Continue",
+                            "Continuar",
                             icon=ft.Icons.ARROW_FORWARD,
                             bgcolor="#0B3558",
                             color="white",
@@ -78,7 +78,7 @@ def DiagnosticView(page: ft.Page):
                             on_click=lambda e: show_step(next_step_id)
                         ),
                         ft.OutlinedButton(
-                            "Back to Menu",
+                            "Regresar al Menú",
                             icon=ft.Icons.HOME,
                             height=45,
                             on_click=lambda e: show_steps_menu()
@@ -117,7 +117,7 @@ def DiagnosticView(page: ft.Page):
                         content=ft.Column(
                             spacing=15,
                             controls=[
-                                ft.Text("Final Checklist:", size=16, weight=ft.FontWeight.BOLD, color="#0B3558"),
+                                ft.Text("Lista Final:", size=16, weight=ft.FontWeight.BOLD, color="#0B3558"),
                                 *[
                                     ft.Row(
                                         spacing=10,
@@ -133,7 +133,7 @@ def DiagnosticView(page: ft.Page):
                     ),
                     ft.Divider(height=20, color="transparent"),
                     ft.ElevatedButton(
-                        "Back to Menu",
+                        "Regresar al Menú",
                         icon=ft.Icons.HOME,
                         bgcolor="#0B3558",
                         color="white",
@@ -195,7 +195,7 @@ def DiagnosticView(page: ft.Page):
                     alignment=ft.MainAxisAlignment.END,
                     controls=[
                         ft.TextButton(
-                            "← Back to Menu",
+                            "← Regresar al Menú",
                             icon=ft.Icons.HOME_OUTLINED,
                             on_click=lambda e: show_steps_menu()
                         )
@@ -279,13 +279,13 @@ def DiagnosticView(page: ft.Page):
                         spacing=8,
                         controls=[
                             ft.Text(
-                                "Select Starting Point",
+                                "Seleccionar Paso de Diagnóstico",
                                 size=18,
                                 weight=ft.FontWeight.BOLD,
                                 color="#0B3558"
                             ),
                             ft.Text(
-                                "Choose the diagnostic step that best matches your current situation:",
+                                "Elige el paso de diagnóstico que mejor se adapte a tu situación actual:",
                                 size=13,
                                 color="#475569"
                             )
